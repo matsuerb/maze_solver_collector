@@ -1,0 +1,42 @@
+<%= form_for(solver) do |f| %>
+  <% if solver.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(solver.errors.count, "error") %> prohibited this solver from being saved:</h2>
+
+      <ul>
+      <% solver.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :username %>
+    <%= f.text_field :username %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :content %>
+    <%= f.text_area :content %>
+  </div>
+
+  <div class="field">
+    <%= f.label :elapsed_usec %>
+    <%= f.number_field :elapsed_usec %>
+  </div>
+
+  <div class="field">
+    <%= f.label :nbytes %>
+    <%= f.number_field :nbytes %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

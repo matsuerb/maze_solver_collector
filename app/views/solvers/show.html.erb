@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Username:</strong>
+  <%= @solver.username %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @solver.email %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @solver.content %>
+</p>
+
+<p>
+  <strong>Elapsed usec:</strong>
+  <%= @solver.elapsed_usec %>
+</p>
+
+<p>
+  <strong>Nbytes:</strong>
+  <%= @solver.nbytes %>
+</p>
+
+<%= link_to 'Edit', edit_solver_path(@solver) %> |
+<%= link_to 'Back', solvers_path %>

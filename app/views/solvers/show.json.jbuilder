@@ -1,0 +1,1 @@
+json.partial! "solvers/solver", solver: @solver
