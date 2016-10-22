@@ -2,6 +2,10 @@ FactoryGirl.define do
   factory(:solver) do
     username { |n| "user#{n}" }
     email { |n| "user#{n}@example.org" }
+
+    before(:create) do |solver, evaluator|
+      solver.run_and_set_result
+    end
   end
 
   factory(:valid_solver, parent: :solver) do

@@ -1,5 +1,5 @@
 class SolversController < ApplicationController
-  before_action :set_solver, only: [:show, :edit, :update, :destroy]
+  before_action :set_solver, only: [:show]
 
   # GET /solvers
   def index
@@ -15,13 +15,10 @@ class SolversController < ApplicationController
     @solver = Solver.new
   end
 
-  # GET /solvers/1/edit
-  def edit
-  end
-
   # POST /solvers
   def create
     @solver = Solver.new(solver_params)
+    @solver.run_and_set_result
 
     respond_to do |format|
       if @solver.save
@@ -29,25 +26,6 @@ class SolversController < ApplicationController
       else
         format.html { render :new }
       end
-    end
-  end
-
-  # PATCH/PUT /solvers/1
-  def update
-    respond_to do |format|
-      if @solver.update(solver_params)
-        format.html { redirect_to @solver, notice: 'Solver was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
-    end
-  end
-
-  # DELETE /solvers/1
-  def destroy
-    @solver.destroy
-    respond_to do |format|
-      format.html { redirect_to solvers_url, notice: 'Solver was successfully destroyed.' }
     end
   end
 
@@ -60,6 +38,6 @@ class SolversController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def solver_params
-    params.require(:solver).permit(:username, :email, :content, :elapsed_usec, :nbytes)
+    params.require(:solver).permit(:username, :email, :content)
   end
 end
