@@ -1,1 +1,0 @@
-json.array! @solvers, partial: 'solvers/solver', as: :solver
