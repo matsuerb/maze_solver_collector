@@ -12,7 +12,7 @@ We tested on:
 Setup Docker Image to run posted solvers.
 
 ```sh
-$ docker build -t solver_runner .
+$ docker build -t solver_runner solver_runner/
 ```
 
 Setup server.
