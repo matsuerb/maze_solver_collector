@@ -1,0 +1,27 @@
+version: "2"
+services:
+  web:
+    build: .
+    image: maze_solver_collector:2016102401
+    ports:
+      - "80:3000"
+    environment:
+      SECRET_KEY_BASE: $SECRET_KEY_BASE
+    restart: always
+    links:
+      - db
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  runner:
+    build: solver_runner/
+    image: solver_runner
+  db:
+    image: postgres:9.4
+    restart: always
+    environment:
+      POSTGRES_USER: db
+      POSTGRES_DB: production
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data: {}

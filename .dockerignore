@@ -1,0 +1,6 @@
+.dockerignore
+Dockerfile
+README.md
+config/database.yml
+log/
+tmp/
