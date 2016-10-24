@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: maze_solver_collector_production
-  username: maze_solver_collector
-  password: <%= ENV['MAZE_SOLVER_COLLECTOR_DATABASE_PASSWORD'] %>
+  url: postgres://db:db@db/production
