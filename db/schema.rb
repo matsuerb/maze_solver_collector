@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021061602) do
+ActiveRecord::Schema.define(version: 20161031022418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "mazes", force: :cascade do |t|
+    t.text     "correct_answer", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["correct_answer"], name: "index_mazes_on_correct_answer", unique: true, using: :btree
+  end
 
   create_table "solvers", force: :cascade do |t|
     t.string   "username",     null: false
