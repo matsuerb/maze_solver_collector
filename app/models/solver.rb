@@ -2,6 +2,9 @@ require "open3"
 require "tempfile"
 
 class Solver < ApplicationRecord
+  has_many :results
+  has_many :mazes, through: :results
+
   def content=(s)
     super
     self.nbytes = s.bytesize
