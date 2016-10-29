@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031022418) do
+ActiveRecord::Schema.define(version: 20161031044531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 20161031022418) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["correct_answer"], name: "index_mazes_on_correct_answer", unique: true, using: :btree
+  end
+
+  create_table "results", force: :cascade do |t|
+    t.integer  "maze_id",      null: false
+    t.integer  "solver_id",    null: false
+    t.integer  "elapsed_usec", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["solver_id", "maze_id"], name: "index_results_on_solver_id_and_maze_id", unique: true, using: :btree
   end
 
   create_table "solvers", force: :cascade do |t|
@@ -33,4 +42,6 @@ ActiveRecord::Schema.define(version: 20161031022418) do
     t.index ["email"], name: "index_solvers_on_email", using: :btree
   end
 
+  add_foreign_key "results", "mazes"
+  add_foreign_key "results", "solvers"
 end
