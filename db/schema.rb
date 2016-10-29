@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031044531) do
+ActiveRecord::Schema.define(version: 20161031052434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,13 +32,12 @@ ActiveRecord::Schema.define(version: 20161031044531) do
   end
 
   create_table "solvers", force: :cascade do |t|
-    t.string   "username",     null: false
-    t.string   "email",        null: false
-    t.text     "content",      null: false
-    t.integer  "elapsed_usec", null: false
-    t.integer  "nbytes",       null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "username",   null: false
+    t.string   "email",      null: false
+    t.text     "content",    null: false
+    t.integer  "nbytes",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_solvers_on_email", using: :btree
   end
 
