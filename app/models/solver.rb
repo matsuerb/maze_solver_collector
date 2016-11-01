@@ -3,7 +3,7 @@ require "tempfile"
 
 class Solver < ApplicationRecord
 
-  validates :email, :email_format => {:message => 'メールアドレスが正しくありません。'}
+  validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
 
   def content=(s)
     super
