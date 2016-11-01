@@ -2,6 +2,9 @@ require "open3"
 require "tempfile"
 
 class Solver < ApplicationRecord
+
+  validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
+
   def content=(s)
     super
     self.nbytes = s.bytesize
