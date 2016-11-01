@@ -5,6 +5,8 @@ class Solver < ApplicationRecord
   has_many :results
   has_many :mazes, through: :results
 
+  validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
+
   def success?
     return results.where("elapsed_usec < 0").count.zero?
   end
