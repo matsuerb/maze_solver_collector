@@ -1,5 +1,59 @@
-<h1>New Solver</h1>
+<body>
+	<div class="container">
+		<header class="ccheader">
+			<%= image_tag("logo1.png") %>
+			<%= image_tag("logo2.png") %>
+		</header>
+		<div class="wrapper">
+			<div class="orange">
+				<h4>【開催スケジュール】</h4>
+				<ul class="schedule">
+					<li>解答期間: 11/xx 〜 12/xx</li>
+					<li>結果発表: 12/17(土) 松江Ruby会議08にて</li>
+				</ul>
 
-<%= render 'form', solver: @solver %>
+				<h4>【表彰】</h4>
+				<ul class="commendation">
+					<li> 一般部門 / 学生部門 各上位3名を表彰します</li>
+					<li>（各部門上位３名には当日賞品を差し上げます。）</li>
+				</ul>
+				<ul class="commendation">
+					<li>※結果は松江Ruby会議08当日に会場にて発表します。</li>
+					<li>※処理速度、ソースコードのバイト数の順で評価します。（どちらも同じ場合は解答日時が早い方を上位とします。）</li>
+				</ul>
+				<h4>【注意事項】</h4>
+				<ul class="notes">
+					<li>松江Ruby会議08当日会場に来られる方が表彰の対象となります。（事前にこちらより登録をお願い致します。）</li>
+					<li>メールアドレスは上記Doorkeeperにて登録したものと同一のものを記入してください。（異なるメールアドレスで応募された場合、入賞の対象外となります。）</li>
+					<li>解答いただいたコードは結果にかかわらず、後日Matsue.rbのHPまたはるびまに掲載させていただく場合があります。</li>
+					<li>応募いただいたコードはシステム上において完全に保存されない場合がありますので、ご自身において必要に応じてバックアップを取るなど、適切なご対応をお願いいたします。</li>
+					<li>いただいたメールアドレスを松江Ruby会議08に関連するご連絡以外には使用いたしません。</li>
+				</ul>
 
-<%= link_to 'Back', solvers_path %>
+			</div> 
+
+			<div class="orange">
+				<h4>【課題】</h4>
+				<ul class="question">
+					<li>「S」「G」「#」で構成される迷路が与えられます。</li>
+					<li>「S」「G」間をなるべく最短かつ早くクリアできるプログラムを作成してください。</li>
+					<li>「S」から「G」までは解答例のように「:」で経路を表示させて下さい。</li>
+				</ul>g
+				<h4>【テストケースと解答表示例】</h4>
+				<ul class="notes">
+					<li>NxN で構成される以下のようなテストケースが与えられます。</li>
+					<li>10≦X≦100となる迷路をランダムで生成します。</li>
+				</ul>
+				<div class="sample-img">
+					<h4><テストケースサンプル></h4>
+					<%= image_tag("testcase.png", size: '75x150') %>
+				</div>
+				<div class="sample-img">
+					<h4><解答表示例></h4>
+					<%= image_tag("example.png", size: '75x150') %>
+				</div>
+			</div>   
+			<%= render 'form', solver: @solver %>
+		</div>
+	</div>
+</body>
