@@ -1,32 +1,33 @@
 <%= form_for(solver) do |f| %>
-  <% if solver.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(solver.errors.count, "error") %> prohibited this solver from being saved:</h2>
+<% if solver.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(solver.errors.count, "error") %> prohibited this solver from being saved:</h2>
 
-      <ul>
+    <ul>
       <% solver.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <li><%= message %></li>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :username %>
-    <%= f.text_field :username %>
+    </ul>
   </div>
+<% end %>
 
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.text_field :email %>
-  </div>
+<div class="ccfield-prepend">
+  <span class="ccform-addon"><i class="fa fa-user fa-2x fa-spin"></i></span>
+  <%= f.text_field :username, class: :ccformfield, placeholder: "ニックネーム（必須）", required: true %>
+</div>
 
-  <div class="field">
-    <%= f.label :content %>
-    <%= f.text_area :content %>
-  </div>
+<div class="ccfield-prepend">
+<span class="ccform-addon"><i class="fa fa-mobile-phone fa-2x"></i></span>
+  <%= f.text_field :email, class: :ccformfield, placeholder: "メールアドレス（必須）", required: true %>
+</div>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<div class="ccfield-prepend">
+  <span class="ccform-addon"><i class="fa fa-user fa-2x fa-spin"></i></span>
+  <%= f.text_area :content, class: :ccformfield, placeholder: "ソースコード（必須）", rows: 10, required: true %>
+  <div id="editor"/>
+</div>
+
+<div class="ccfield-prepend">
+  <%= f.submit class: :ccbtn, value: '応募する', data: { disable_with: "送信中..." } %>
+</div>
 <% end %>
