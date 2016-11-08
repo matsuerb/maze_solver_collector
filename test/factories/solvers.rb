@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory(:solver) do
-    username { |n| "user#{n}" }
-    email { |n| "user#{n}@example.org" }
+    sequence(:username) { |n| "user#{n}" }
+    sequence(:email) { |n| "user#{n}@example.org" }
 
     before(:create) do |solver, evaluator|
       solver.run_and_set_result

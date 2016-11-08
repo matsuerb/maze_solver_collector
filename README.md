@@ -24,6 +24,7 @@ $ editor config/database.yml
 <set your database settings.>
 $ bin/rails db:create:all
 $ bin/rails db:migrate
+$ bin/rails maze:import
 ```
 
 Run test.

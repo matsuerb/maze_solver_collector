@@ -2,8 +2,21 @@ require "open3"
 require "tempfile"
 
 class Solver < ApplicationRecord
+  has_many :results
+  has_many :mazes, through: :results
 
   validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
+
+  def success?
+    return results.where("elapsed_usec < 0").count.zero?
+  end
+
+  def elapsed_usec
+    if !success?
+      return -1
+    end
+    return results.sum(:elapsed_usec)
+  end
 
   def content=(s)
     super
@@ -11,29 +24,16 @@ class Solver < ApplicationRecord
   end
 
   def run_and_set_result
-    # TODO: 問題と答えを複数渡せるようにする
-    expected = <<EOS
-###########
-S:#:::::# #
-#:#:###:# #
-#:::#:::# #
-#####:### #
-#:::::#   #
-#:### # ###
-#:::# # # #
-###:### # #
-#  :::::::G
-###########
-EOS
-    problem = expected.gsub(":", " ")
-
-    create_runner_container do |container_id|
-      deploy_solver_script(container_id)
-      start_solver_script(container_id, problem) do |script_result|
-        if expected == script_result
-          self.elapsed_usec = parse_time_result(container_id)
-        else
-          self.elapsed_usec = -1
+    Maze.find_each do |maze|
+      create_runner_container do |container_id|
+        deploy_solver_script(container_id)
+        start_solver_script(container_id, maze.question) do |script_result|
+          if maze.correct_answer == script_result
+            elapsed_usec = parse_time_result(container_id)
+          else
+            elapsed_usec = -1
+          end
+          results.build(maze: maze, elapsed_usec: elapsed_usec)
         end
       end
     end
