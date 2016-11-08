@@ -35,7 +35,7 @@ class Solver < ApplicationRecord
           logger.debug("start solver.")
           if maze.correct_answer == script_result
             elapsed_usec = parse_time_result(container_id)
-            logger.debug("success", elapsed_usec: elapsed_usec)
+            logger.debug("success: #{{elapsed_usec: elapsed_usec}.inspect}")
           else
             elapsed_usec = -1
             logger.debug("failure.")
@@ -46,6 +46,11 @@ class Solver < ApplicationRecord
       end
       logger.debug("ran maze runner.")
     end
+  end
+
+  def run_and_save_result
+    run_and_set_result
+    save!
   end
 
   private
