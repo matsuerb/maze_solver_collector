@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "solvers#index"
+  root "solvers#new"
 
-  resources :solvers, only: [:index, :show, :new, :create]
+  resources :solvers, only: [:new, :create, :show]
 end

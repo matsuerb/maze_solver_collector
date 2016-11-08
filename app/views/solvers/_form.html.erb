@@ -1,28 +1,24 @@
 <%= form_for(solver) do |f| %>
 <% if solver.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(solver.errors.count, "error") %> prohibited this solver from being saved:</h2>
-
-    <ul>
+  <div class="alert alert-danger">
       <% solver.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
+        <%= message %>
       <% end %>
-    </ul>
   </div>
 <% end %>
 
 <div class="ccfield-prepend">
-  <span class="ccform-addon"><i class="fa fa-user fa-2x fa-spin"></i></span>
+  <span class="ccform-addon"><i class="fa fa-user fa-2x"></i></span>
   <%= f.text_field :username, class: :ccformfield, placeholder: "ニックネーム（必須）", required: true %>
 </div>
 
 <div class="ccfield-prepend">
-<span class="ccform-addon"><i class="fa fa-mobile-phone fa-2x"></i></span>
-  <%= f.text_field :email, class: :ccformfield, placeholder: "メールアドレス（必須）", required: true %>
+<span class="ccform-addon"><i class="fa fa-envelope-o fa-2x"></i></span>
+  <%= f.email_field :email, class: :ccformfield, placeholder: "メールアドレス（必須）", required: true %>
 </div>
 
 <div class="ccfield-prepend">
-  <span class="ccform-addon"><i class="fa fa-user fa-2x fa-spin"></i></span>
+  <span class="ccform-addon"><i class="fa fa-code fa-2x"></i></span>
   <%= f.text_area :content %>
   <div id='editor'>
 </div>
