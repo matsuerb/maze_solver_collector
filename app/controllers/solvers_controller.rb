@@ -22,7 +22,7 @@ class SolversController < ApplicationController
 
     respond_to do |format|
       if @solver.save
-        format.html { render :complete }
+        format.html { redirect_to @solver, notice: 'Solver was successfully created.' }
       else
         format.html { render :new }
       end
