@@ -67,3 +67,19 @@ ul {
 	display: inline-block;
 	width: 40%;
 }
+
+textarea {
+	min-height: 100px;
+}
+
+#editor {
+	min-height: 150px;
+	width: calc(100% - 56px);
+}
+
+
+
+
+
+
+
