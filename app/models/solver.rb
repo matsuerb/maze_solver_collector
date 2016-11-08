@@ -2,8 +2,21 @@ require "open3"
 require "tempfile"
 
 class Solver < ApplicationRecord
+  has_many :results
+  has_many :mazes, through: :results
 
   validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
+
+  def success?
+    return results.where("elapsed_usec < 0").count.zero?
+  end
+
+  def elapsed_usec
+    if !success?
+      return -1
+    end
+    return results.sum(:elapsed_usec)
+  end
 
   def content=(s)
     super
@@ -11,31 +24,26 @@ class Solver < ApplicationRecord
   end
 
   def run_and_set_result
-    # TODO: 問題と答えを複数渡せるようにする
-    expected = <<EOS
-###########
-S:#:::::# #
-#:#:###:# #
-#:::#:::# #
-#####:### #
-#:::::#   #
-#:### # ###
-#:::# # # #
-###:### # #
-#  :::::::G
-###########
-EOS
-    problem = expected.gsub(":", " ")
-
-    create_runner_container do |container_id|
-      deploy_solver_script(container_id)
-      start_solver_script(container_id, problem) do |script_result|
-        if expected == script_result
-          self.elapsed_usec = parse_time_result(container_id)
-        else
-          self.elapsed_usec = -1
+    each_maze do |maze|
+      logger.debug("running maze runner.")
+      create_runner_container do |container_id|
+        logger.debug("created runner container.")
+        deploy_solver_script(container_id)
+        logger.debug("deployed solver script.")
+        start_solver_script(container_id, maze.question) do |script_result|
+          logger.debug("start solver.")
+          if maze.correct_answer == script_result
+            elapsed_usec = parse_time_result(container_id)
+            logger.debug("success", elapsed_usec: elapsed_usec)
+          else
+            elapsed_usec = -1
+            logger.debug("failure.")
+          end
+          results.build(maze: maze, elapsed_usec: elapsed_usec)
         end
+        logger.debug("stop solver.")
       end
+      logger.debug("ran maze runner.")
     end
   end
 
@@ -43,6 +51,14 @@ EOS
 
   def time_result_path
     return "/time.txt" # TODO: オブジェクトごとに変更する．
+  end
+
+  def each_maze
+    Maze.find_each do |maze|
+      logger.tagged("maze:#{maze.id}") do
+        yield(maze)
+      end
+    end
   end
 
   def run_command(error_message, *command)
@@ -64,7 +80,9 @@ EOS
       raise "docker createに失敗 command=#{command.inspect}"
     end
     container_id = stdout[0, 12]
-    yield(container_id)
+    logger.tagged("container:#{container_id}") do
+      yield(container_id)
+    end
   ensure
     if container_id
       run_command("docker stopに失敗", "docker stop #{container_id}")
