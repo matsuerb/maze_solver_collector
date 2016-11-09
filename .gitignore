@@ -17,4 +17,7 @@
 .byebug_history
 
 config/database.yml
+
+.idea
+.ruby-version
 db/*.sqlite3
