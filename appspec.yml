@@ -3,4 +3,9 @@ os: linux
 files:
   - source: /
     destination: /srv/maze_solver_collector/
+hooks:
+  AfterInstall:
+    - location: scripts/docker_exec
+      timeout: 300
+      runas: root
 
