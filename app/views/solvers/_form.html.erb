@@ -2,7 +2,7 @@
 <% if solver.errors.any? %>
   <div class="alert alert-danger">
       <% solver.errors.full_messages.each do |message| %>
-        <%= message %>
+        <strong><%= message %></strong>
       <% end %>
   </div>
 <% end %>
