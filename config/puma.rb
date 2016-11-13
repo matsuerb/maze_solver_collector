@@ -9,22 +9,16 @@ threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests, default is 3000.
 #
-if "production" == ENV.fetch("RAILS_ENV") { "development" }
-  port        ENV.fetch("PORT") { 80 }
-else
-  port        ENV.fetch("PORT") { 3000 }
-end
+port        ENV.fetch("PORT") { 80 }
 
 # Bind the server to "url"
 #
-if "production" == ENV.fetch("RAILS_ENV") { "development" }
-  ssl_bind '0.0.0.0', '443', {
-    key: "/etc/letsencrypt/live/procon.kurat.jp/privkey.pem",
-    cert: "/etc/letsencrypt/live/procon.kurat.jp/cert.pem",
-    ca: "/etc/letsencrypt/live/procon.kurat.jp/chain.pem",
-    verify_mode: "none"
-  }
-end
+ssl_bind '0.0.0.0', '443', {
+  key: "/etc/letsencrypt/live/procon.kurat.jp/privkey.pem",
+  cert: "/etc/letsencrypt/live/procon.kurat.jp/cert.pem",
+  ca: "/etc/letsencrypt/live/procon.kurat.jp/chain.pem",
+  verify_mode: "none"
+}
 
 # Specifies the `environment` that Puma will run in.
 #
