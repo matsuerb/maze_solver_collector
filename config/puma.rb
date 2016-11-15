@@ -7,26 +7,30 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i
 threads threads_count, threads_count
 
+# Specifies the `environment` that Puma will run in.
+#
+
+rails_env = ENV.fetch("RAILS_ENV") { "development" }
+environment rails_env
+
 # Specifies the `port` that Puma will listen on to receive requests, default is 3000.
 #
-port        ENV.fetch("PORT") { 80 }
+port        ENV.fetch("PORT") { rails_env == "production" ? 80 : 3000 }
 
 # Bind the server to "url"
 #
-ssl_bind '0.0.0.0', '443', {
-  key: "/etc/letsencrypt/live/procon.kurat.jp/privkey.pem",
-  cert: "/etc/letsencrypt/live/procon.kurat.jp/cert.pem",
-  ca: "/etc/letsencrypt/live/procon.kurat.jp/chain.pem",
-  verify_mode: "none"
-}
-
-# Specifies the `environment` that Puma will run in.
-#
-environment ENV.fetch("RAILS_ENV") { "development" }
+if rails_env == "production"
+  ssl_bind '0.0.0.0', '443', {
+    key: "/etc/letsencrypt/live/procon.kurat.jp/privkey.pem",
+    cert: "/etc/letsencrypt/live/procon.kurat.jp/cert.pem",
+    ca: "/etc/letsencrypt/live/procon.kurat.jp/chain.pem",
+    verify_mode: "none"
+  }
+end
 
 # Daemonize application
 #
-daemonize
+daemonize rails_env == "production"
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
