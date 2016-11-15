@@ -1,10 +1,11 @@
 require 'test_helper'
 
 class SolversControllerTest < ActionDispatch::IntegrationTest
-  test("#index") do
-    get(solvers_url)
-    assert_response(:success)
-  end
+  # TODO: #indexはランキング表示に使用予定。今は使用しないのでコメントアウトしておく。
+  # test("#index") do
+  #   get(solvers_url)
+  #   assert_response(:success)
+  # end
 
   test("#new") do
     get(new_solver_url)
