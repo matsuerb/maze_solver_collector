@@ -1,32 +1,3 @@
-<!-- <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Username:</strong>
-  <%= @solver.username %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @solver.email %>
-</p>
-
-<p>
-  <strong>Content:</strong>
-  <%= @solver.content %>
-</p>
-
-<p>
-  <strong>Elapsed usec:</strong>
-  <%= @solver.elapsed_usec %>
-</p>
-
-<p>
-  <strong>Nbytes:</strong>
-  <%= @solver.nbytes %>
-</p>
-
-<%= link_to 'Back', solvers_path %>
- -->
 
  <body>
   <div class="container">
@@ -37,6 +8,22 @@
       </div>
       <div class="orange">
         <p>解答を受け付けました。ご応募ありがとうございました！</p>
+        <p>
+          <strong>ニックネーム:</strong>
+          <%= @solver.username %>
+        </p>
+         <p>
+          <strong>正解数:</strong>
+          <%= @collect_ansewer_count %>
+        </p>
+        <p>
+          <strong>合計時間:</strong>
+          <%= @total_time %>msec
+        </p>
+        <p>
+          <strong>バイト数:</strong>
+          <%= @solver.nbytes %>byte
+        </p>
       </div>   
     </div>
   </div>

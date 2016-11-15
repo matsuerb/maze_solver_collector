@@ -8,6 +8,8 @@ class SolversController < ApplicationController
 
   # GET /solvers/1
   def show
+    @collect_ansewer_count = @solver.results.collect_answers.count
+    @total_time = @solver.results.collect_answers.sum(:elapsed_usec)
   end
 
   # GET /solvers/new
