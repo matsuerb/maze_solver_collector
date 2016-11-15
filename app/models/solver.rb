@@ -6,7 +6,7 @@ class Solver < ApplicationRecord
   has_many :mazes, through: :results
 
   validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
-  validates :nbytes, inclusion: { in: 0..1.megabyte, message: '1MB以上のプログラムは投稿できません。' }
+  validates :nbytes, inclusion: { in: 0..Settings.max_program_size, message: '1MB以上のプログラムは投稿できません。' }
 
   def success?
     return results.where("elapsed_usec < 0").count.zero?
