@@ -60,9 +60,11 @@ class Solver < ApplicationRecord
   end
 
   def each_maze
-    Maze.find_each do |maze|
-      logger.tagged("maze:#{maze.id}") do
-        yield(maze)
+    logger.tagged("solver:#{id}") do
+      Maze.find_each do |maze|
+        logger.tagged("maze:#{maze.id}") do
+          yield(maze)
+        end
       end
     end
   end
