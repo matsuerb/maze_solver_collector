@@ -60,7 +60,8 @@
         <h5>1. ローカル環境用のファイルをダウンロード</h5>
 
         <p>以下のURLからファイルをダウンロードし、解凍してください。</p>
-        <p><a href="https://procon.kurat.jp/local_sample.zip">https://procon.kurat.jp/local_sample.zip</a></p>
+        <% url = File.join(Settings.url_root, "local_sample.zip") %>
+        <p><%= link_to(url, url) %></p>
 
         <p>展開すると以下のようなファイル構成になります。</p>
 
