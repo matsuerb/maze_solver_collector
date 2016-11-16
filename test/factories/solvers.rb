@@ -4,7 +4,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "user#{n}@example.org" }
 
     before(:create) do |solver, evaluator|
-      solver.run_and_set_result
+      solver.run_and_save_result
     end
   end
 
