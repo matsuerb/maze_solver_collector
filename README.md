@@ -35,7 +35,13 @@ $ bin/rake
 
 ## Enjoy
 
-Run server.
+Run solver runner.
+
+```sh
+$ bin/delayed_job start
+```
+
+Run web server.
 
 ```sh
 $ bin/rails s

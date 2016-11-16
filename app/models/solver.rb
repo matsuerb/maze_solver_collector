@@ -9,6 +9,10 @@ class Solver < ApplicationRecord
   validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
   validates :nbytes, inclusion: { in: 0..Settings.max_program_size, message: '1MB以上のプログラムは投稿できません。' }
 
+  def done?
+    return !success? || results.count >= Maze.count
+  end
+
   def success?
     return results.where("elapsed_usec < 0").count.zero?
   end
@@ -36,7 +40,7 @@ class Solver < ApplicationRecord
           logger.debug("start solver.")
           if maze.correct_answer == script_result
             elapsed_usec = parse_time_result(container_id)
-            logger.debug("success", elapsed_usec: elapsed_usec)
+            logger.debug("success: #{{elapsed_usec: elapsed_usec}.inspect}")
           else
             elapsed_usec = -1
             logger.debug("failure.")
@@ -49,6 +53,11 @@ class Solver < ApplicationRecord
     end
   end
 
+  def run_and_save_result
+    run_and_set_result
+    save!
+  end
+
   private
 
   def time_result_path
@@ -56,9 +65,11 @@ class Solver < ApplicationRecord
   end
 
   def each_maze
-    Maze.find_each do |maze|
-      logger.tagged("maze:#{maze.id}") do
-        yield(maze)
+    logger.tagged("solver:#{id}") do
+      Maze.find_each do |maze|
+        logger.tagged("maze:#{maze.id}") do
+          yield(maze)
+        end
       end
     end
   end

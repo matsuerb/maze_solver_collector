@@ -37,6 +37,23 @@
       </div>
       <div class="orange">
         <p>解答を受け付けました。ご応募ありがとうございました！</p>
+        <% #TODO: このあたりなにかかっこいい表示へ %>
+        <p>受け付けた解答は<%= @solver.nbytes %>バイトです。</p>
+        <% if @solver.done? %>
+          <p>処理結果</p>
+          <p>
+            <% @solver.results.each.with_index do |result, i| %>
+              迷路<%= i + 1 %>:
+              <% if result.success? %>
+                <%= result.elapsed_sec %>秒
+              <% else %>
+                失敗!
+              <% end %>
+            <% end %>
+          </p>
+        <% else %>
+          <p>現在処理中です。</p>
+        <% end %>
       </div>   
     </div>
   </div>
