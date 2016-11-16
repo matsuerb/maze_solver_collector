@@ -24,7 +24,14 @@ class SolversController < ApplicationController
       if @solver.save
         format.html { redirect_to @solver, notice: 'Solver was successfully created.' }
       else
-        format.html { render :new }
+        data = {
+          username: @solver.username,
+          email: @solver.email,
+          error: @solver.errors.full_messages,
+        }
+        format.html {
+          redirect_to({action: :new, anchor: :form}, {flash: data})
+        }
       end
     end
   end
