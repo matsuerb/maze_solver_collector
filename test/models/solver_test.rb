@@ -39,5 +39,15 @@ EOS
       end_time = Time.now
       assert_operator(10, :>, end_time - start_time)
     end
+
+    test("Perlは実行できない") do
+      solver = build(:valid_solver, content: <<EOS)
+system("perl", "-e", "sleep(10);")
+EOS
+      start_time = Time.now
+      solver.run_and_set_result
+      end_time = Time.now
+      assert_operator(10, :>, end_time - start_time)
+    end
   end
 end
