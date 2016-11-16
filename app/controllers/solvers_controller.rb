@@ -20,11 +20,11 @@ class SolversController < ApplicationController
   # POST /solvers
   def create
     @solver = Solver.new(solver_params)
-    @solver.run_and_set_result
 
     respond_to do |format|
       if @solver.save
         format.html { redirect_to @solver, notice: 'Solver was successfully created.' }
+        @solver.delay.run_and_save_result
       else
         format.html { render :new }
       end

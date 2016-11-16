@@ -12,18 +12,22 @@
           <strong>ニックネーム:</strong>
           <%= @solver.username %>
         </p>
-         <p>
-          <strong>正解数:</strong>
-          <%= @collect_ansewer_count %>
-        </p>
-        <p>
-          <strong>合計時間:</strong>
-          <%= @total_time %>msec
-        </p>
-        <p>
-          <strong>バイト数:</strong>
-          <%= @solver.nbytes %>byte
-        </p>
+        <% if @solver.done? %>
+          <p>
+            <strong>正解数:</strong>
+            <%= @collect_ansewer_count %>
+          </p>
+          <p>
+            <strong>合計時間:</strong>
+            <%= @total_time %>msec
+          </p>
+          <p>
+            <strong>バイト数:</strong>
+            <%= @solver.nbytes %>byte
+          </p>
+        <% else %>
+          <p>現在処理中です。</p>
+        <% end %>
       </div>   
     </div>
   </div>

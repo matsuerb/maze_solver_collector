@@ -52,3 +52,11 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'validates_email_format_of'
 gem "structured_logger"
+gem 'config'
+gem "delayed_job_active_record"
+# delayed_job_active_record.gem needs daemons.gem.
+# https://github.com/collectiveidea/delayed_job/tree/v4.1.2#user-content-running-jobs
+gem "daemons"
+# suppress DEPRECATION WARNING.
+# https://github.com/collectiveidea/delayed_job/pull/948
+gem "delayed_job", github: "atomaka/delayed_job", branch: "bugfix/rails5-reloader"
