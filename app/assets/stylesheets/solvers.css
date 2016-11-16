@@ -77,6 +77,21 @@ textarea {
 	width: calc(100% - 56px);
 }
 
+.local_sample_wrap a {
+  color: #000;
+  text-decoration: underline;
+}
+.local_sample_wrap a:hover {
+  color: #5e5e5e;
+  background-color: transparent;
+}
+.local_sample_wrap h5 {
+  font-weight: bold;
+  font-size: 140%;
+  letter-spacing: 0.1em;
+  margin-top: 40px;
+  margin-bottom: 5px;
+}
 
 
 
