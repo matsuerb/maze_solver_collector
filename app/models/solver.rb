@@ -92,6 +92,11 @@ class Solver < ApplicationRecord
 
   def deploy_solver_script(container_id)
     Tempfile.create("solver") do |f|
+      f.write(<<EOS)
+def sleep(n)
+  return n
+end
+EOS
       f.write(content)
       f.close
       File.chmod(0755, f.path)

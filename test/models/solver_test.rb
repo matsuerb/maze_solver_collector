@@ -19,5 +19,15 @@ class SolverTest < ActiveSupport::TestCase
       solver.save!
       assert_equal(-1, solver.elapsed_usec)
     end
+
+    test("Kernel#sleepは効かない") do
+      solver = build(:valid_solver, content: <<EOS)
+sleep(10)
+EOS
+      start_time = Time.now
+      solver.run_and_set_result
+      end_time = Time.now
+      assert_operator(10, :>, end_time - start_time)
+    end
   end
 end
