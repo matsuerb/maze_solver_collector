@@ -1,5 +1,4 @@
-
- <body>
+<body>
   <div class="container">
     <div class="wrapper">
       <div class="ccheader">
@@ -12,23 +11,44 @@
           <strong>ニックネーム:</strong>
           <%= @solver.username %>
         </p>
-        <% if @solver.done? %>
-          <p>
-            <strong>正解数:</strong>
-            <%= @collect_ansewer_count %>
-          </p>
-          <p>
-            <strong>合計時間:</strong>
-            <%= @total_time %>msec
-          </p>
-          <p>
-            <strong>バイト数:</strong>
-            <%= @solver.nbytes %>byte
-          </p>
-        <% else %>
-          <p>現在処理中です。</p>
-        <% end %>
+        <p>
+          <strong>正解数:</strong>
+          <span id="correct-answer-cnt">処理中...</span>
+        </p>
+        <p>
+          <strong>合計時間:</strong>
+          <span id="total-time">処理中...</span>
+        </p>
+        <p>
+          <strong>バイト数:</strong>
+          <span id="nbytes">処理中...</span>
+        </p>
       </div>   
     </div>
   </div>
 </body>
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  reloadResults();
+});
+
+function reloadResults(){
+  return $.ajax({
+    url: <%= @solver.id %> + '.json',
+    dataType:"json",
+    success: function (data) {
+      var solver = data.solver;
+      if(solver.ended) {
+        $('#correct-answer-cnt').text(solver.correct_answer_cnt);
+        $('#total-time').text(solver.total_time + 'msec');
+        $('#nbytes').text(solver.nbytes + 'bytes');
+      } else {
+        reloadResults();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+    }
+  })
+}
+<% end %>

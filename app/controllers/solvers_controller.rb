@@ -6,10 +6,16 @@ class SolversController < ApplicationController
     @solvers = Solver.all
   end
 
-  # GET /solvers/1
+  # GET /solvers/:id
   def show
-    @collect_ansewer_count = @solver.results.collect_answers.count
-    @total_time = @solver.results.collect_answers.sum(:elapsed_usec)
+    respond_to do |format|
+      format.html {}
+      format.json do
+        correct_answers = @solver.results.correct_answers
+        @correct_ansewer_cnt = correct_answers.count
+        @total_time = correct_answers.sum(:elapsed_usec)
+      end
+    end
   end
 
   # GET /solvers/new
