@@ -1,5 +1,6 @@
 require "open3"
 require "tempfile"
+require "digest/md5"
 
 class Solver < ApplicationRecord
   has_many :results
@@ -51,7 +52,7 @@ class Solver < ApplicationRecord
   private
 
   def time_result_path
-    return "/time.txt" # TODO: オブジェクトごとに変更する．
+    return "/time.txt." + Digest::MD5.hexdigest(object_id.to_s)
   end
 
   def each_maze
