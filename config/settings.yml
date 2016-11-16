@@ -1,0 +1,2 @@
+---
+:max_program_size: <%= 1.megabyte %>
