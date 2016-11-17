@@ -1,20 +1,20 @@
-<%= form_for(solver) do |f| %>
-<% if solver.errors.any? %>
+<%= form_for(solver, html: {id: "form"}) do |f| %>
+<% if flash[:error].present? %>
   <div class="alert alert-danger">
-      <% solver.errors.full_messages.each do |message| %>
-        <strong><%= message %></strong>
+      <% flash[:error].each do |message| %>
+        <%= message %>
       <% end %>
   </div>
 <% end %>
 
 <div class="ccfield-prepend">
   <span class="ccform-addon"><i class="fa fa-user fa-2x"></i></span>
-  <%= f.text_field :username, class: :ccformfield, placeholder: "ニックネーム（必須）", required: true %>
+  <%= f.text_field :username, class: :ccformfield, placeholder: "ニックネーム（必須）", value: flash[:username], required: true %>
 </div>
 
 <div class="ccfield-prepend">
 <span class="ccform-addon"><i class="fa fa-envelope-o fa-2x"></i></span>
-  <%= f.email_field :email, class: :ccformfield, placeholder: "メールアドレス（必須）", required: true %>
+  <%= f.email_field :email, class: :ccformfield, placeholder: "メールアドレス（必須）", value: flash[:email], required: true %>
 </div>
 
 <div class="ccfield-prepend">

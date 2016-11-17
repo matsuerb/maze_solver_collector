@@ -8,6 +8,7 @@ class Solver < ApplicationRecord
 
   validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
   validates :nbytes, inclusion: { in: 0..Settings.max_program_size, message: '1MB以上のプログラムは投稿できません。' }
+  validates :content, presence: {message: "プログラムが入力されていません。"}
 
   def done?
     return !success? || results.count >= Maze.count
@@ -82,7 +83,7 @@ class Solver < ApplicationRecord
 
   def create_runner_container(*args)
     command = %W[
-      docker create -i --net none --cpuset-cpus 0 --memory 512m
+      docker create -i --net none --cpuset-cpus #{Settings.cpuset_cpus} --memory 512m
       --memory-swap 512m --ulimit nproc=10:10 --ulimit fsize=1000000
       -w /workspace solver_runner
         /usr/bin/time -q -f %e -o #{time_result_path}
@@ -104,6 +105,11 @@ class Solver < ApplicationRecord
 
   def deploy_solver_script(container_id)
     Tempfile.create("solver") do |f|
+      f.write(<<EOS)
+def sleep(n)
+  return n
+end
+EOS
       f.write(content)
       f.close
       File.chmod(0755, f.path)
