@@ -8,6 +8,7 @@ class Solver < ApplicationRecord
 
   validates :email, email_format: {message: 'メールアドレスが正しくありません。'}
   validates :nbytes, inclusion: { in: 0..Settings.max_program_size, message: '1MB以上のプログラムは投稿できません。' }
+  validates :content, format: { without: /\A\s*\z/, message: "プログラムが入力されていません。" }
 
   def done?
     return !success? || results.count >= Maze.count
