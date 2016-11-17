@@ -60,8 +60,9 @@
         <h5>1. ローカル環境用のファイルをダウンロード</h5>
 
         <p>以下のURLからファイルをダウンロードし、解凍してください。</p>
-        <% url = File.join(Settings.url_root, "local_sample.zip") %>
-        <p><%= link_to(url, url) %></p>
+        <% path = "/local_sample.zip" %>
+        <% url = File.join(root_url, path) %>
+        <p><%= link_to(url, path) %></p>
 
         <p>展開すると以下のようなファイル構成になります。</p>
 
