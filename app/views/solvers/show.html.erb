@@ -44,7 +44,7 @@ function reloadResults(){
         $('#total-time').text(solver.total_time + 'msec');
         $('#nbytes').text(solver.nbytes + 'bytes');
       } else {
-        reloadResults();
+        setTimeout("reloadResults()", 5000);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
