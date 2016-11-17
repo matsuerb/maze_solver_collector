@@ -83,7 +83,7 @@ class Solver < ApplicationRecord
 
   def create_runner_container(*args)
     command = %W[
-      docker create -i --net none --cpuset-cpus 0 --memory 512m
+      docker create -i --net none --cpuset-cpus #{Settings.cpuset_cpus} --memory 512m
       --memory-swap 512m --ulimit nproc=10:10 --ulimit fsize=1000000
       -w /workspace solver_runner
         /usr/bin/time -q -f %e -o #{time_result_path}
