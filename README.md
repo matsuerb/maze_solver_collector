@@ -5,7 +5,7 @@
 We tested on:
 
 * Ruby 2.3.1
-* Docker 1.12.1
+* Docker 1.12.3
 
 ## Setup
 
