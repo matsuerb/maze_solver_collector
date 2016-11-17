@@ -1,34 +1,4 @@
-<!-- <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Username:</strong>
-  <%= @solver.username %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @solver.email %>
-</p>
-
-<p>
-  <strong>Content:</strong>
-  <%= @solver.content %>
-</p>
-
-<p>
-  <strong>Elapsed usec:</strong>
-  <%= @solver.elapsed_usec %>
-</p>
-
-<p>
-  <strong>Nbytes:</strong>
-  <%= @solver.nbytes %>
-</p>
-
-<%= link_to 'Back', solvers_path %>
- -->
-
- <body>
+<body>
   <div class="container">
     <div class="wrapper">
       <div class="ccheader">
@@ -37,24 +7,48 @@
       </div>
       <div class="orange">
         <p>解答を受け付けました。ご応募ありがとうございました！</p>
-        <% #TODO: このあたりなにかかっこいい表示へ %>
-        <p>受け付けた解答は<%= @solver.nbytes %>バイトです。</p>
-        <% if @solver.done? %>
-          <p>処理結果</p>
-          <p>
-            <% @solver.results.each.with_index do |result, i| %>
-              迷路<%= i + 1 %>:
-              <% if result.success? %>
-                <%= result.elapsed_sec %>秒
-              <% else %>
-                失敗!
-              <% end %>
-            <% end %>
-          </p>
-        <% else %>
-          <p>現在処理中です。</p>
-        <% end %>
+        <p>
+          <strong>ニックネーム:</strong>
+          <%= @solver.username %>
+        </p>
+        <p>
+          <strong>正解数:</strong>
+          <span id="correct-answer-cnt">処理中...</span>
+        </p>
+        <p>
+          <strong>合計時間:</strong>
+          <span id="total-time">処理中...</span>
+        </p>
+        <p>
+          <strong>バイト数:</strong>
+          <span id="nbytes">処理中...</span>
+        </p>
       </div>   
     </div>
   </div>
 </body>
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  reloadResults();
+});
+
+function reloadResults(){
+  return $.ajax({
+    url: <%= @solver.id %> + '.json',
+    dataType:"json",
+    success: function (data) {
+      var solver = data.solver;
+      if(solver.ended) {
+        $('#correct-answer-cnt').text(solver.correct_answer_cnt);
+        $('#total-time').text(solver.total_time + 'msec');
+        $('#nbytes').text(solver.nbytes + 'bytes');
+      } else {
+        setTimeout("reloadResults()", 5000);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+    }
+  })
+}
+<% end %>

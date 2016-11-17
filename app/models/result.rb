@@ -2,6 +2,8 @@ class Result < ApplicationRecord
   belongs_to :maze
   belongs_to :solver
 
+  scope :correct_answers, -> { where('elapsed_usec >= 0') }
+
   def success?
     return elapsed_usec >= 0
   end
