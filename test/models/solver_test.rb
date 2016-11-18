@@ -20,6 +20,15 @@ class SolverTest < ActiveSupport::TestCase
       assert_equal(-1, solver.elapsed_usec)
     end
 
+    test("例外が発生してもelapsed_usecが-1") do
+      solver = build(:invalid_solver, content: <<EOS)
+raise
+EOS
+      solver.run_and_set_result
+      solver.save!
+      assert_equal(-1, solver.elapsed_usec)
+    end
+
     def self.omit_feature_test(name, code_template)
       test_sec = 10
       code = code_template.gsub("%{sec}", test_sec.to_s)

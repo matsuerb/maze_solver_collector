@@ -37,16 +37,20 @@ class Solver < ApplicationRecord
         logger.debug("created runner container.")
         deploy_solver_script(container_id)
         logger.debug("deployed solver script.")
-        start_solver_script(container_id, maze.question) do |script_result|
-          logger.debug("start solver.")
-          if maze.correct_answer == script_result
-            elapsed_usec = parse_time_result(container_id)
-            logger.debug("success: #{{elapsed_usec: elapsed_usec}.inspect}")
-          else
-            elapsed_usec = -1
-            logger.debug("failure.")
+        begin
+          start_solver_script(container_id, maze.question) do |script_result|
+            logger.debug("start solver.")
+            if maze.correct_answer == script_result
+              elapsed_usec = parse_time_result(container_id)
+              logger.debug("success: #{{elapsed_usec: elapsed_usec}.inspect}")
+            else
+              elapsed_usec = -1
+              logger.debug("failure.")
+            end
+            results.build(maze: maze, elapsed_usec: elapsed_usec)
           end
-          results.build(maze: maze, elapsed_usec: elapsed_usec)
+        rescue
+          results.build(maze: maze, elapsed_usec: -1)
         end
         logger.debug("stop solver.")
       end
