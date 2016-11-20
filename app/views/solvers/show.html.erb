@@ -5,24 +5,53 @@
         <%= image_tag("logo1.png") %>
         <%= image_tag("logo2.png") %>
       </div>
-      <div class="orange">
-        <p>解答を受け付けました。ご応募ありがとうございました！</p>
-        <p>
-          <strong>ニックネーム:</strong>
-          <%= @solver.username %>
+      <div class="orange result_wrap">
+        <h1>採点結果</h1>
+        <p class="notice">解答を受け付けました。ご応募ありがとうございました！</p>
+        <p class="status">ただいま処理中です。<br>結果表示まで数分かかる場合もあります。</p>
+        <div class="loader">Loading...</div>
+
+        <div class="result_summary">
+          <table class="table-striped">
+            <tr>
+              <th>
+                <strong>ニックネーム:</strong>
+              </th>
+              <td>
+                <span><%= @solver.username %></span>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>正解数:</strong>
+              </th>
+              <td>
+                <span id="correct-answer-cnt">処理中...</span>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>合計時間:</strong>
+              </th>
+              <td>
+                <span id="total-time">処理中...</span>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <strong>バイト数:</strong>
+              </th>
+              <td>
+                <span id="nbytes">処理中...</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <p class="btn_wrap">
+          <button type="button" class="btn btn-warning"><%= link_to("再チャレンジする", new_solver_path) %></button>
         </p>
-        <p>
-          <strong>正解数:</strong>
-          <span id="correct-answer-cnt">処理中...</span>
-        </p>
-        <p>
-          <strong>合計時間:</strong>
-          <span id="total-time">処理中...</span>
-        </p>
-        <p>
-          <strong>バイト数:</strong>
-          <span id="nbytes">処理中...</span>
-        </p>
+
       </div>   
     </div>
   </div>
@@ -34,6 +63,9 @@ $(document).ready(function(){
 });
 
 function reloadResults(){
+
+  var status_text = '結果がでました。';
+
   return $.ajax({
     url: <%= @solver.id %> + '.json',
     dataType:"json",
@@ -43,6 +75,8 @@ function reloadResults(){
         $('#correct-answer-cnt').text(solver.correct_answer_cnt);
         $('#total-time').text(solver.total_time + 'msec');
         $('#nbytes').text(solver.nbytes + 'bytes');
+        $('.loader').remove();
+        $('.status').text(status_text);
       } else {
         setTimeout("reloadResults()", 5000);
       }
