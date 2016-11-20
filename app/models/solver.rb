@@ -52,6 +52,7 @@ class Solver < ApplicationRecord
         rescue
           results.build(maze: maze, elapsed_usec: -1)
         end
+        run_command("docker rmに失敗", "docker rm #{container_id}")
         logger.debug("stop solver.")
       end
       logger.debug("ran maze runner.")
