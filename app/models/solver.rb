@@ -102,9 +102,10 @@ class Solver < ApplicationRecord
       yield(container_id)
     end
   ensure
-    if container_id
-      run_command("docker stopに失敗", "docker stop #{container_id}")
-      run_command("docker rmに失敗", "docker rm #{container_id}")
+    begin
+      run_command("docker rmに失敗", "docker rm #{container_id}") rescue nil
+    rescue => e
+      logger.error("failure: #{e.massage}")
     end
   end
 
