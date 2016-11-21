@@ -64,3 +64,5 @@ gem "daemons"
 # suppress DEPRECATION WARNING.
 # https://github.com/collectiveidea/delayed_job/pull/948
 gem "delayed_job", github: "atomaka/delayed_job", branch: "bugfix/rails5-reloader"
+gem "bundler-audit"
+gem "ruby_audit"
