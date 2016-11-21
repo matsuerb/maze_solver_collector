@@ -103,7 +103,7 @@ class Solver < ApplicationRecord
     end
   ensure
     begin
-      run_command("docker rmに失敗", "docker rm #{container_id}") rescue nil
+      run_command("docker rmに失敗", "docker rm #{container_id}")
     rescue => e
       logger.error("failure: #{e.massage}")
     end
@@ -133,7 +133,11 @@ EOS
     begin
       yield(stdout)
     ensure
-      run_command("docker stopに失敗", "docker stop #{container_id}")
+      begin
+        run_command("docker stopに失敗", "docker stop #{container_id}")
+      rescue => e
+        logger.error("failure: #{e.massage}")
+      end
     end
   end
 
