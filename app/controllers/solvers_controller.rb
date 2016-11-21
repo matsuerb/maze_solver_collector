@@ -11,6 +11,10 @@ class SolversController < ApplicationController
     respond_to do |format|
       format.html {}
       format.json do
+        @results = @solver.mazes.collect { |m|
+          @solver.results.where(maze_id: m.id).first || Result.new(maze: m, solver: @solver)
+        }
+        # TODO: 個別に表示するようになったら削除する。
         correct_answers = @solver.results.correct_answers
         @correct_ansewer_cnt = correct_answers.count
         @total_time = correct_answers.sum(:elapsed_usec)
