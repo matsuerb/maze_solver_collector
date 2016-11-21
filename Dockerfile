@@ -1,4 +1,4 @@
-FROM ruby:2.3.1
+FROM ruby:2.3.2-slim
 MAINTAINER Yuya.Nishida.
 
 # install PostgreSQL client and Node.js

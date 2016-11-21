@@ -1,4 +1,4 @@
-FROM ruby:2.3.1
+FROM ruby:2.3.2-slim
 MAINTAINER Yuya.Nishida.
 
 RUN set -xe ; \
@@ -6,5 +6,4 @@ RUN set -xe ; \
   apt-get install -y --no-install-recommends time ; \
   rm /bin/sleep ; \
   rm /usr/bin/perl* ; \
-  rm /usr/bin/python* ; \
   rm -rf /var/lib/apt/lists/*
