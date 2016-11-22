@@ -4,7 +4,7 @@
 
 We tested on:
 
-* Ruby 2.3.2
+* Ruby 2.3.3
 * Docker 1.12.3
 
 ## Setup
