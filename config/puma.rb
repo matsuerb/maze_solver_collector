@@ -21,9 +21,9 @@ port        ENV.fetch("PORT") { rails_env == "production" ? 80 : 3000 }
 #
 if rails_env == "production"
   ssl_bind '0.0.0.0', '443', {
-    key: "/etc/letsencrypt/live/procon.kurat.jp/privkey.pem",
-    cert: "/etc/letsencrypt/live/procon.kurat.jp/cert.pem",
-    ca: "/etc/letsencrypt/live/procon.kurat.jp/chain.pem",
+    key: "/etc/letsencrypt/live/procon.eastback.jp/privkey.pem",
+    cert: "/etc/letsencrypt/live/procon.eastback.jp/cert.pem",
+    ca: "/etc/letsencrypt/live/procon.eastback.jp/chain.pem",
     verify_mode: "none"
   }
 end
