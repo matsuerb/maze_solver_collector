@@ -13,6 +13,14 @@ class SolverTest < ActiveSupport::TestCase
       assert_operator(0, :<, solver.elapsed_usec)
     end
 
+    test("末尾の改行の有無によらず正解") do
+      solver = build(:valid_solver)
+      solver.content += "\nputs\n"
+      solver.run_and_set_result
+      solver.save!
+      assert_operator(0, :<, solver.elapsed_usec)
+    end
+
     test("答えが間違っているならelapsed_usecが-1") do
       solver = build(:invalid_solver)
       solver.run_and_set_result
