@@ -40,7 +40,7 @@ class Solver < ApplicationRecord
         begin
           start_solver_script(container_id, maze.question) do |script_result|
             logger.debug("start solver.")
-            if maze.correct_answer == script_result
+            if rm_tail_linefeed(maze.correct_answer) == rm_tail_linefeed(script_result)
               elapsed_usec = parse_time_result(container_id)
               logger.debug("success: #{{elapsed_usec: elapsed_usec}.inspect}")
             else
@@ -150,5 +150,9 @@ EOS
       s = File.read(f.path)
       return (s.to_f * 1_000_000).round
     end
+  end
+
+  def rm_tail_linefeed(s)
+    s.gsub(/((\r)?\n)*\z/m, "")
   end
 end
