@@ -72,7 +72,7 @@ function reloadResults(){
     success: function (data) {
       var solver = data.solver;
       if(solver.ended) {
-        $('#correct-answer-cnt').text(solver.correct_answer_cnt);
+        $('#correct-answer-cnt').text(solver.correct_answer_cnt + '/' + solver.results.length);
         $('#total-time').text(solver.total_time + 'msec');
         $('#nbytes').text(solver.nbytes + 'bytes');
         $('.loader').remove();
