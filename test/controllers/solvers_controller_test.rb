@@ -11,12 +11,8 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
   def create_solver(name, elapsed_usec, nbytes_offset: 0, email: nil, created_at: nil)
     @maze ||= create(:maze)
     solver = build(:valid_solver, username: name.to_s)
-    if email
-      solver.email = email
-    end
-    if created_at
-      solver.created_at = created_at
-    end
+    solver.email = email if email
+    solver.created_at = created_at if created_at
     solver.nbytes += nbytes_offset
     solver.results.build(elapsed_usec: elapsed_usec, maze: @maze)
     solver.save!
