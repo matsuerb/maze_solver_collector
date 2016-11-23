@@ -105,7 +105,7 @@ class Solver < ApplicationRecord
     begin
       run_command("docker rmに失敗", "docker rm #{container_id}")
     rescue => e
-      logger.error("failure: #{e.massage}")
+      logger.error("failure: #{e.message}")
     end
   end
 
@@ -136,7 +136,7 @@ EOS
       begin
         run_command("docker stopに失敗", "docker stop #{container_id}")
       rescue => e
-        logger.error("failure: #{e.massage}")
+        logger.error("failure: #{e.message}")
       end
     end
   end
