@@ -6,7 +6,7 @@ class SolversController < ApplicationController
     @solvers = Solver.eager_load(:results).find_each.select { |solver|
       solver.done? && solver.success?
     }.sort_by { |solver|
-      [solver.elapsed_usec, solver.nbytes]
+      [solver.elapsed_usec, solver.nbytes, solver.created_at]
     }.uniq(&:email)
   end
 

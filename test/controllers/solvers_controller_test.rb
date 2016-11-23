@@ -8,11 +8,14 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
     return @controller.instance_variable_get(variable_name)
   end
 
-  def create_solver(name, elapsed_usec, nbytes_offset: 0, email: nil)
+  def create_solver(name, elapsed_usec, nbytes_offset: 0, email: nil, created_at: nil)
     @maze ||= create(:maze)
     solver = build(:valid_solver, username: name.to_s)
     if email
       solver.email = email
+    end
+    if created_at
+      solver.created_at = created_at
     end
     solver.nbytes += nbytes_offset
     solver.results.build(elapsed_usec: elapsed_usec, maze: @maze)
@@ -26,8 +29,16 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
     solver_300_0 = create_solver(:solver_300_0, 300)
     create_solver(:solver_200_1, 300, email: solver_200_0.email) # same email
     create_solver(:solver_000_0, -1) # incorrect answer
-    solver_200_2 = create_solver(:solver_200_2, 200, nbytes_offset: -10) # same elapsed time
-    expected_solvers = [solver_100_0, solver_200_2, solver_200_0, solver_300_0]
+    solver_200_2 = create_solver(:solver_200_2, 200, # same elapsed time
+                                 nbytes_offset: -10)
+    solver_200_3 = create_solver(:solver_200_3, 200, # same elapsed time and nbytes
+                                 # less than solver_200_0
+                                 created_at: solver_200_0.created_at - 1.hours)
+    expected_solvers = [
+      solver_100_0,
+      solver_200_2, solver_200_3, solver_200_0,
+      solver_300_0,
+    ]
 
     get(solvers_url)
 
