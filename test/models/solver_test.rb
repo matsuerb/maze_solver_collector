@@ -37,46 +37,6 @@ EOS
       assert_equal(-1, solver.elapsed_usec)
     end
 
-    test("10未満forkしてelapsed_usecが正の整数") do
-      solver = build(:valid_solver)
-      solver.content = <<-EOS + solver.content
-        9.times { fork { i = 0 } }
-      EOS
-      solver.run_and_set_result
-      solver.save!
-      assert_operator(0, :<, solver.elapsed_usec)
-    end
-
-    test("10以上forkしてelapsed_usecが正の整数") do
-      solver = build(:valid_solver)
-      solver.content = <<-EOS + solver.content
-        10.times { fork { i = 0 } }
-      EOS
-      solver.run_and_set_result
-      solver.save!
-      assert_equal(-1, solver.elapsed_usec)
-    end
-
-    test("512MB未満のメモリを消費してelapsed_usecが正の整数") do
-      solver = build(:valid_solver)
-      solver.content = <<-EOS + solver.content
-        memory_eater = File.read("/dev/urandom", 1024 * 1024) * 500
-      EOS
-      solver.run_and_set_result
-      solver.save!
-      assert_operator(0, :<, solver.elapsed_usec)
-    end
-
-    test("512MB以上メモリを消費してelapsed_usecが-1") do
-      solver = build(:valid_solver)
-      solver.content = <<-EOS + solver.content
-        memory_eater = File.read("/dev/urandom", 1024 * 1024) * 512
-      EOS
-      solver.run_and_set_result
-      solver.save!
-      assert_equal(-1, solver.elapsed_usec)
-    end
-
     test("標準出力に1MB未満出力するとelapsed_usecが正の整数") do
       solver = build(:valid_solver)
       solver.content = solver.content +
