@@ -30,7 +30,7 @@
               <tr>
                 <td><%= i + 1 %></td>
                 <td><%= solver.username %></td>
-                <td><%= solver.elapsed_usec / 1000.0 %>msec</td>
+                <td><%= (solver.elapsed_usec / 1000.0).round %>msec</td>
                 <td><%= solver.nbytes %>bytes</td>
               </tr>
             <% end %>
