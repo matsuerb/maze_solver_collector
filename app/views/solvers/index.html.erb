@@ -18,6 +18,9 @@
                 <strong>ニックネーム</strong>
               </th>
               <th>
+                <strong>正解数</strong>
+              </th>
+              <th>
                 <strong>合計時間</strong>
               </th>
               <th>
@@ -30,7 +33,8 @@
               <tr>
                 <td><%= i + 1 %></td>
                 <td><%= solver.username %></td>
-                <td><%= (solver.elapsed_usec / 1000.0).round %>msec</td>
+                <td><%= solver.results.correct_answers.count %></td>
+                <td><%= (solver.results.correct_answers.sum(:elapsed_usec) / 1000.0).round %>msec</td>
                 <td><%= solver.nbytes %>bytes</td>
               </tr>
             <% end %>
