@@ -3,7 +3,7 @@ class SolversController < ApplicationController
 
   # GET /solvers
   def index
-    @solvers = Solver.eager_load(:results).find_each.select { |solver|
+    @solvers = Solver.eager_load(:results).find_each.lazy.select { |solver|
       solver.done? && solver.success?
     }.sort_by { |solver|
       [solver.elapsed_usec, solver.nbytes, solver.created_at]
