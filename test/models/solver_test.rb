@@ -37,6 +37,24 @@ EOS
       assert_equal(-1, solver.elapsed_usec)
     end
 
+    test("標準出力に1MB未満出力するとelapsed_usecが正の整数") do
+      solver = build(:valid_solver)
+      solver.content = solver.content +
+        %Q'print ("\n" * (#{1.megabytes} - 132 - 1))'
+      solver.run_and_set_result
+      solver.save!
+      assert_operator(0, :<, solver.elapsed_usec)
+    end
+
+    test("標準出力に1MB以上出力するとelapsed_usecが-1") do
+      solver = build(:valid_solver)
+      solver.content = solver.content +
+        %Q'print ("\n" * (#{1.megabytes} - 132))'
+      solver.run_and_set_result
+      solver.save!
+      assert_equal(-1, solver.elapsed_usec)
+    end
+
     def self.omit_feature_test(name, code_template)
       test_sec = 10
       code = code_template.gsub("%{sec}", test_sec.to_s)

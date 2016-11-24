@@ -124,9 +124,30 @@ EOS
     end
   end
 
+  # similar to Open3.capture2 with read limit.
+  def capture2(*cmd, stdin_data:)
+    Open3.popen2(*cmd) do |i, o, t|
+      out_reader = Thread.new {
+        o.read(Settings.max_output_size)
+      }
+      begin
+        i.write(stdin_data)
+      rescue Errno::EPIPE
+      end
+      i.close
+
+      out = out_reader.value
+      if out && Settings.max_output_size <= out.length
+        out = ""
+        o.close
+      end
+      return [out, t.value]
+    end
+  end
+
   def start_solver_script(container_id, problem)
     command = %W[docker start -i #{container_id}]
-    stdout, status = *Open3.capture2(*command, stdin_data: problem)
+    stdout, status = *capture2(*command, stdin_data: problem)
     if !status.success?
       raise "docker startに失敗: command=#{command.inspect}"
     end

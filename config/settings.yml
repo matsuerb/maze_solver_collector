@@ -1,3 +1,4 @@
 ---
 :max_program_size: <%= 1.megabyte %>
+:max_output_size: <%= 1.megabytes %>
 :cpuset_cpus: '0'
