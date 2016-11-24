@@ -3,7 +3,15 @@ class SolversController < ApplicationController
 
   # GET /solvers
   def index
-    @solvers = Solver.all
+    @solvers = Solver.eager_load(:results).find_each.lazy.select(&:done?).
+      sort_by { |solver|
+      [
+        -solver.results.correct_answers.count,
+        solver.results.correct_answers.sum(:elapsed_usec),
+        solver.nbytes,
+        solver.created_at,
+      ]
+    }.uniq(&:email)
   end
 
   # GET /solvers/:id
