@@ -27,14 +27,14 @@
         </ul>
 				<h4>【注意事項】</h4>
 				<ul class="notes">
-					<li>松江Ruby会議08当日会場に来られる方が表彰の対象となります。（事前にこちらより登録をお願い致します。）</li>
-					<li>メールアドレスは上記Doorkeeperにて登録したものと同一のものを記入してください。（異なるメールアドレスで応募された場合、入賞の対象外となります。）</li>
-					<li>解答いただいたコードは結果にかかわらず、後日Matsue.rbのHPまたはるびまに掲載させていただく場合があります。</li>
+					<li>松江Ruby会議08当日会場に来られる方が表彰の対象となります。事前に<a href="https://matsue-rb.doorkeeper.jp/events/52118">こちら</a>より参加登録をお願い致します。</li>
+					<li>メールアドレスは、参加登録時Doorkeeperに登録したものと同一のものを記入してください。（異なるメールアドレスで応募された場合、入賞の対象外となります。）</li>
+					<li>解答いただいたコードは結果にかかわらず、後日Matsue.rbのウェブサイトまたはるびまに掲載させていただく場合があります。</li>
 					<li>応募いただいたコードはシステム上において完全に保存されない場合がありますので、ご自身において必要に応じてバックアップを取るなど、適切なご対応をお願いいたします。</li>
 					<li>いただいたメールアドレスを松江Ruby会議08に関連するご連絡以外には使用いたしません。</li>
 				</ul>
 
-			</div> 
+			</div>
 
 			<div class="orange">
         <h2>問題：Rubyで迷路を解いてみよう！</h2>
@@ -217,7 +217,7 @@
   var editor = ace.edit("editor");
   var textarea = $('textarea[name="solver[content]"]').hide();
   var RubyMode = ace.require("ace/mode/ruby").Mode;
-  editor.getSession().setMode(new RubyMode()); 
+  editor.getSession().setMode(new RubyMode());
   editor.getSession().on('change', function(){
     textarea.val(editor.getSession().getValue());
   });
