@@ -33,6 +33,9 @@
 .fa-user:before {
   content: "\f007";
 }
+.fa-division:before {
+  content: "\f00c";
+}
 .fa-comment:before {
   content: "\f075";
 }
@@ -84,4 +87,16 @@
 .ccbtn:hover{
 	background:#d8850e;
 
+}
+
+
+.division_wrap{
+  width: 100%;
+}
+.division_wrap label{
+  display: inline;
+  padding-left: 13px;
+}
+.division_wrap input{
+  margin-right: 5px;
 }
