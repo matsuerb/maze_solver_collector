@@ -47,13 +47,13 @@ ActiveRecord::Schema.define(version: 20161128121447) do
   end
 
   create_table "solvers", force: :cascade do |t|
-    t.string   "username",   null: false
-    t.string   "email",      null: false
-    t.text     "content",    null: false
-    t.integer  "nbytes",     null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "division"
+    t.string   "username",               null: false
+    t.string   "email",                  null: false
+    t.text     "content",                null: false
+    t.integer  "nbytes",                 null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "division",   default: 0, null: false
     t.index ["email"], name: "index_solvers_on_email", using: :btree
   end
 
