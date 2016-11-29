@@ -18,12 +18,27 @@
 </div>
 
 <div class="ccfield-prepend">
+  <span class="ccform-addon"><i class="fa fa-division fa-2x"></i></span>
+
+  <div class="ccformfield division_wrap">
+    <%= f.label(:division) do %>
+      <%= f.radio_button :division, Solver::DivisionVal[:general], :checked => "checked" %>一般
+    <% end %>
+    <%= f.label(:division) do %>
+      <%= f.radio_button :division, Solver::DivisionVal[:student] %>学生
+    <% end %>
+  </div>
+
+</div>
+
+<div class="ccfield-prepend">
   <span class="ccform-addon"><i class="fa fa-code fa-2x"></i></span>
   <%= f.text_area :content %>
-  <div id='editor'>
+  <div id='editor'></div>
 </div>
 
 <div class="ccfield-prepend">
   <%= f.submit class: :ccbtn, value: '応募する', data: { disable_with: "送信中..." } %>
 </div>
+
 <% end %>

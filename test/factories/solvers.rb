@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory(:solver) do
     sequence(:username) { |n| "user#{n}" }
     sequence(:email) { |n| "user#{n}@example.org" }
+    division { Solver::DivisionVal[:general] }
 
     before(:create) do |solver, evaluator|
       solver.run_and_save_result

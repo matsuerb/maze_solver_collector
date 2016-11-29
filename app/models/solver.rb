@@ -10,6 +10,11 @@ class Solver < ApplicationRecord
   validates :nbytes, inclusion: { in: 0..Settings.max_program_size, message: '1MB以上のプログラムは投稿できません。' }
   validates :content, presence: {message: "プログラムが入力されていません。"}
 
+  DivisionVal={
+      general: 0, # 一般
+      student: 1, # 学生
+  }
+
   def done?
     return !success? || results.count >= Maze.count
   end

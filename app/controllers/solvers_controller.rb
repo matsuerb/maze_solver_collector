@@ -65,6 +65,6 @@ class SolversController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def solver_params
-    params.require(:solver).permit(:username, :email, :content)
+    params.require(:solver).permit(:username, :email, :content, :division)
   end
 end
