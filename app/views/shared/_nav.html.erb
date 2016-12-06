@@ -1,0 +1,30 @@
+<style>
+  .container{}
+  .wrapper .nav-wrap ul{
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+  }
+  .wrapper .nav-wrap ul li{
+    margin-left: 10px;
+  }
+  .wrapper .nav-wrap ul li a:hover{
+    background-color: transparent;
+  }
+</style>
+<div class="header_bg">
+
+  <div class="wrapper">
+    <div class="nav-wrap">
+      <ul>
+        <li class="btn btn-default"><%= link_to '投稿する', new_solver_path %></li>
+        <li class="btn btn-default"><%= link_to 'ランキングを見る',solvers_path %></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
