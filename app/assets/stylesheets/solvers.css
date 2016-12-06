@@ -59,6 +59,24 @@ ul {
 	font-size: 15px;
 }
 
+/* 2016 12 07 追加 */
+.container{}
+.wrapper .nav-wrap ul{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+.wrapper .nav-wrap ul li{
+  margin-left: 10px;
+}
+.wrapper .nav-wrap ul li a:hover{
+  background-color: transparent;
+}
+
+
 .commendation, .schedule, .question{
 	list-style: none;
 }
@@ -111,6 +129,10 @@ p.notice,
 p.status{
   text-align: center;
 }
+.result_wrap h2{
+  margin: 30px 0 15px 20px;
+}
+
 .result_summary{
   background: #fff;
   padding: 20px;
@@ -200,3 +222,6 @@ p.status{
     box-shadow: 0 2.5em 0 0;
   }
 }
+
+
+
