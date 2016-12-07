@@ -34,6 +34,10 @@ class Solver < ApplicationRecord
     return results.where("elapsed_usec < 0").count.zero?
   end
 
+  def student?
+    return DivisionVal[:student] == division
+  end
+
   def elapsed_usec
     if !success?
       return -1
