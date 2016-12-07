@@ -3,13 +3,13 @@ class SolversController < ApplicationController
 
   # GET /solvers
   def index
-    @students,@no_students = *Solver.eager_load(:results).find_each.lazy.select(&:done?).
+    @students, @no_students = *Solver.eager_load(:results).find_each.lazy.select(&:done?).
       sort_by { |solver|
       [
-          -solver.results.correct_answers.count,
-          solver.results.correct_answers.sum(:elapsed_usec),
-          solver.nbytes,
-          solver.created_at,
+        -solver.results.correct_answers.count,
+        solver.results.correct_answers.sum(:elapsed_usec),
+        solver.nbytes,
+        solver.created_at,
       ]
     }.uniq(&:email).partition(&:student?)
   end
