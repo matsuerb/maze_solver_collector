@@ -15,6 +15,17 @@ class Solver < ApplicationRecord
       student: 1, # 学生
   }
 
+  scope :ranking_scope, -> (status_value) do
+    where(division: status_value).find_each.lazy.select(&:done?).sort_by { |solver|
+      [
+          -solver.results.correct_answers.count,
+          solver.results.correct_answers.sum(:elapsed_usec),
+          solver.nbytes,
+          solver.created_at,
+      ]
+    }.uniq(&:email)
+  end
+
   def done?
     return !success? || results.count >= Maze.count
   end

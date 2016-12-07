@@ -3,25 +3,8 @@ class SolversController < ApplicationController
 
   # GET /solvers
   def index
-    @solvers = Solver.eager_load(:results).where(division: Solver::DivisionVal[:general]).find_each.lazy.select(&:done?).
-      sort_by { |solver|
-      [
-        -solver.results.correct_answers.count,
-        solver.results.correct_answers.sum(:elapsed_usec),
-        solver.nbytes,
-        solver.created_at,
-      ]
-    }.uniq(&:email)
-
-    @student = Solver.eager_load(:results).where(division: Solver::DivisionVal[:sutudent]).find_each.lazy.select(&:done?).
-        sort_by { |solver|
-      [
-          -solver.results.correct_answers.count,
-          solver.results.correct_answers.sum(:elapsed_usec),
-          solver.nbytes,
-          solver.created_at,
-      ]
-    }.uniq(&:email)
+    @solvers = Solver.eager_load(:results).ranking_scope(Solver::DivisionVal[:general])
+    @student = Solver.eager_load(:results).ranking_scope(Solver::DivisionVal[:sutudent])
   end
 
   # GET /solvers/:id
