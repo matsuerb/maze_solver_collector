@@ -18,7 +18,6 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
     ]
     solver = build(:valid_solver, username: name.to_s)
     solver.email = email if email
-    solver.division = Solver::DivisionVal[:general]
     solver.created_at = created_at if created_at
     solver.nbytes += nbytes_offset
     @mazes.each_with_index do |maze, i|
@@ -69,7 +68,7 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Solver.count') do
       post(solvers_url,
            params: {
-             solver: attributes_for(:valid_solver).slice(:username, :email, :division,
+             solver: attributes_for(:valid_solver).slice(:username, :email,
                                                          :content)
            })
     end

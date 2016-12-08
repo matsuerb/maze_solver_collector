@@ -3,7 +3,7 @@ class SolversController < ApplicationController
 
   # GET /solvers
   def index
-    @solvers = Solver.eager_load(:results).find_each.lazy.select(&:done?).
+    @students, @no_students = *Solver.eager_load(:results).find_each.lazy.select(&:done?).
       sort_by { |solver|
       [
         -solver.results.correct_answers.count,
@@ -11,7 +11,7 @@ class SolversController < ApplicationController
         solver.nbytes,
         solver.created_at,
       ]
-    }.uniq(&:email)
+    }.uniq(&:email).partition(&:student?)
   end
 
   # GET /solvers/:id

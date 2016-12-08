@@ -1,46 +1,24 @@
 <div class="container">
   <div class="wrapper">
+
     <div class="ccheader">
       <%= image_tag("logo1.png") %>
       <%= image_tag("logo2.png") %>
     </div>
+
     <div class="orange result_wrap">
       <h1>ランキング</h1>
 
+      <h2>一般部門</h2>
       <div class="result_summary">
-        <table class="table-striped">
-          <thead>
-            <tr>
-              <th>
-                <strong>順位</strong>
-              </th>
-              <th>
-                <strong>ニックネーム</strong>
-              </th>
-              <th>
-                <strong>正解数</strong>
-              </th>
-              <th>
-                <strong>合計時間</strong>
-              </th>
-              <th>
-                <strong>バイト数</strong>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @solvers.each_with_index do |solver, i| %>
-              <tr>
-                <td><%= i + 1 %></td>
-                <td><%= solver.username %></td>
-                <td><%= solver.results.correct_answers.count %></td>
-                <td><%= (solver.results.correct_answers.sum(:elapsed_usec) / 1000.0).round %>msec</td>
-                <td><%= solver.nbytes %>bytes</td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render '/shared/ranking_list', solvers: @no_students %>
+      </div>
+
+      <h2>学生部門</h2>
+      <div class="result_summary">
+        <%= render '/shared/ranking_list', solvers: @students %>
       </div>
     </div>
+
   </div>
 </div>

@@ -1,0 +1,32 @@
+<table class="table-striped">
+  <thead>
+  <tr>
+    <th>
+      <strong>順位</strong>
+    </th>
+    <th>
+      <strong>ニックネーム</strong>
+    </th>
+    <th>
+      <strong>正解数</strong>
+    </th>
+    <th>
+      <strong>合計時間</strong>
+    </th>
+    <th>
+      <strong>バイト数</strong>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% solvers.each_with_index do |solver, i| %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td><%= solver.username %></td>
+      <td><%= solver.results.correct_answers.count %></td>
+      <td><%= (solver.results.correct_answers.sum(:elapsed_usec) / 1000.0).round %>msec</td>
+      <td><%= solver.nbytes %>bytes</td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
