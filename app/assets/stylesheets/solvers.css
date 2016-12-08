@@ -72,6 +72,9 @@ ul {
 .wrapper .nav-wrap ul li{
   margin-left: 10px;
 }
+.wrapper .nav-wrap ul li a{
+  color: #666;
+}
 .wrapper .nav-wrap ul li a:hover{
   background-color: transparent;
 }
