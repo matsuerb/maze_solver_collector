@@ -51,13 +51,13 @@ class CalcRanking
     results = []
     @results.group_by {|r| r[:solver].id }.each do |solver_id, _results|
       # 正解数も試行回数で差がでないように平均を取る。
-      num_corrects = _results.count {|r| r[:time] >= 0 }.to_f / @num_try
-      time = _results.group_by {|r| r[:num_try]}.inject(0) { |sum, (num_try, __results)|
-        __results.inject(0) {|res, r| r[:time].to_i }
+      __results = _results.select {|r| r[:time] >= 0 }
+      time = __results.inject(0) {|sum, r|
+        sum + r[:time].to_i # nilの場合に0にする
       }.to_f / @num_try
       res = {
-        num_corrects: num_corrects,
-        time: time,
+        num_corrects: __results.count.to_f / @num_try,  # 正解数(平均)
+        time: time,                                     # 合計時間(平均)
         nbytes: _results.first[:solver].nbytes,
         created_at: _results.first[:solver].created_at,
         email: _results.first[:solver].email,
