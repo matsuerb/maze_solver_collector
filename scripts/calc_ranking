@@ -63,6 +63,7 @@ class CalcRanking
         email: _results.first[:solver].email,
         is_student: _results.first[:solver].student?,
         username: _results.first[:solver].username,
+        solver_id: _results.first[:solver].id,
       }
       results.push(res)
     end
@@ -79,9 +80,9 @@ class CalcRanking
 
   def csv
     return CSV.generate do |csv|
-      csv << ["Solver#id", "試行回数(回)", "計測結果(ms)"]
+      csv << ["Solver#id", "ニックネーム", "試行回数(回)", "計測結果(ms)"]
       @results.each do |res|
-        csv << [res[:solver].id, res[:num_try], res[:time]]
+        csv << [res[:solver].id, res[:solver].username, res[:num_try], res[:time]]
       end
     end
   end
@@ -98,15 +99,15 @@ if __FILE__ == $0
   c.calc
   students, no_students = *c.ranking
   puts 'ランキング(学生):'
-  puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
+  puts "順位\tID\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
   students.each.with_index do |r, rank|
-    puts "#{rank+1}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
+    puts "#{rank+1}\t#{r[:solver_id]}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
   end
   puts ''
   puts 'ランキング(一般):'
-  puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
+  puts "順位\tID\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
   no_students.each.with_index do |r, rank|
-    puts "#{rank+1}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
+    puts "#{rank+1}\t#{r[:solver_id]}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
   end
   puts ''
   puts '生データ:'
