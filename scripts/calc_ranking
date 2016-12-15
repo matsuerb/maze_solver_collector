@@ -23,7 +23,8 @@ class CalcRanking
 
   def calc
     pb = ProgressBar.create(total: Solver.count)
-    Solver.readonly.order(:id).find_in_batches(batch_size: @batch_size).each do |solvers|
+    range = Settings.contest_start..Settings.contest_end
+    Solver.readonly.where(created_at: range).order(:id).find_in_batches(batch_size: @batch_size).each do |solvers|
       solvers.each do |s|
         @num_try.times do |i|
           s.reload # resultsをクリア
