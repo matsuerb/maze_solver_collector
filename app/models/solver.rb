@@ -89,7 +89,7 @@ class Solver < ApplicationRecord
   end
 
   def run_command(error_message, *command)
-    _, status = *Open3.capture2(*command)
+    _, _, status = *Open3.capture3(*command)
     if !status.success?
       raise "#{error_message}: command=#{command.inspect}"
     end
@@ -103,7 +103,7 @@ class Solver < ApplicationRecord
         /usr/bin/time -q -f %e -o #{time_result_path}
           timeout 3 su nobody -s /bin/bash -c
     ] + ["ruby /main.rb"]
-    stdout, status = *Open3.capture2(*command)
+    stdout, _, status = *Open3.capture3(*command)
     if !status.success?
       raise "docker createに失敗 command=#{command.inspect}"
     end
@@ -136,7 +136,7 @@ EOS
 
   # similar to Open3.capture2 with read limit.
   def capture2(*cmd, stdin_data:)
-    Open3.popen2(*cmd) do |i, o, t|
+    Open3.popen3(*cmd) do |i, o, _, t|
       out_reader = Thread.new {
         o.read(Settings.max_output_size)
       }
