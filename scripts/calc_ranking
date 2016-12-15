@@ -98,13 +98,13 @@ if __FILE__ == $0
   c.calc
   students, no_students = *c.ranking
   puts 'ランキング(学生):'
-  puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\バイト数"
+  puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
   students.each.with_index do |r, rank|
     puts "#{rank+1}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
   end
   puts ''
   puts 'ランキング(一般):'
-  puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\バイト数"
+  puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
   no_students.each.with_index do |r, rank|
     puts "#{rank+1}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
   end
