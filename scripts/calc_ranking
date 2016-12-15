@@ -86,13 +86,13 @@ if __FILE__ == $0
   puts 'ランキング(学生):'
   puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\バイト数"
   students.each.with_index do |r, rank|
-    puts "#{rank}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
+    puts "#{rank+1}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
   end
   puts ''
   puts 'ランキング(一般):'
   puts "順位\tニックネーム\t正解数(平均)\t合計時間(平均)\バイト数"
   no_students.each.with_index do |r, rank|
-    puts "#{rank}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
+    puts "#{rank+1}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
   end
   puts ''
   puts '生データ:'
