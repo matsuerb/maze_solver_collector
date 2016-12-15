@@ -89,7 +89,8 @@ class Solver < ApplicationRecord
   end
 
   def run_command(error_message, *command)
-    if !system(*command)
+    _, status = *Open3.capture2(*command)
+    if !status.success?
       raise "#{error_message}: command=#{command.inspect}"
     end
   end
