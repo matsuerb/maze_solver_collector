@@ -41,6 +41,7 @@ group :development, :test do
 	gem 'binding_of_caller'
   gem "test-unit-rails"
   gem "factory_girl_rails"
+  gem "ruby-progressbar"
 end
 
 group :development do
