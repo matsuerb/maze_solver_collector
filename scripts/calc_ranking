@@ -28,17 +28,20 @@ class CalcRanking
     range = Settings.contest_start..Settings.contest_end
     Solver.readonly.where(created_at: range).order(:id).find_in_batches(batch_size: @batch_size).each do |solvers|
       solvers.each do |s|
-        next if checked_programs.include?(solver_hash(s))
-        @num_try.times do |i|
-          s.reload # resultsをクリア
-          s.run_and_set_result
-          res = s.results.select { |r| r.new_record? }.map { |r|
-            {solver: s, num_try: i+1, time: r.elapsed_usec / 1000}
-          }
-          @results.concat(res)
+        begin
+          next if checked_programs.include?(solver_hash(s))
+          @num_try.times do |i|
+            s.reload # resultsをクリア
+            s.run_and_set_result
+            res = s.results.select { |r| r.new_record? }.map { |r|
+              {solver: s, num_try: i+1, time: r.elapsed_usec / 1000}
+            }
+            @results.concat(res)
+          end
+          checked_programs.push(solver_hash(s))
+        ensure
+          pb.increment
         end
-        pb.increment
-        checked_programs.push(solver_hash(s))
       end
     end
     pb.finish
