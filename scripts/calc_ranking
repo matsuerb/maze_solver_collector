@@ -8,6 +8,7 @@
 # $ bundle exec rails runner scripts/calc_ranking 3
 
 require 'csv'
+require 'digest/md5'
 require 'ruby-progressbar'
 
 class CalcRanking
@@ -22,10 +23,12 @@ class CalcRanking
   end
 
   def calc
+    checked_programs = []
     pb = ProgressBar.create(total: Solver.count)
     range = Settings.contest_start..Settings.contest_end
     Solver.readonly.where(created_at: range).order(:id).find_in_batches(batch_size: @batch_size).each do |solvers|
       solvers.each do |s|
+        next if checked_programs.include?(solver_hash(s))
         @num_try.times do |i|
           s.reload # resultsをクリア
           s.run_and_set_result
@@ -35,6 +38,7 @@ class CalcRanking
           @results.concat(res)
         end
         pb.increment
+        checked_programs.push(solver_hash(s))
       end
     end
     pb.finish
@@ -77,6 +81,12 @@ class CalcRanking
         csv << [res[:solver].id, res[:num_try], res[:time]]
       end
     end
+  end
+
+  private
+
+  def solver_hash(solver)
+    return Digest::MD5.hexdigest(solver.email + solver.content)
   end
 end
 
