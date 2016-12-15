@@ -68,14 +68,17 @@ class CalcRanking
       results.push(res)
     end
     # solvers_controller.rbより。
-    return results.sort_by { |r|
-      [
-        -r[:num_corrects],
-        r[:time],
-        r[:nbytes],
-        r[:created_at],
-      ]
-    }.uniq {|h| h[:email] }.partition { |h| h[:is_student] }
+    # ただし、一般、学生で同じアドレスを使用していた場合にどちらにも表示する。
+    return results.partition { |h| h[:is_student] }.map {|res_block|
+      res_block.sort_by { |r|
+        [
+          -r[:num_corrects],
+          r[:time],
+          r[:nbytes],
+          r[:created_at],
+        ]
+      }.uniq {|h| h[:email] }
+    }
   end
 
   def csv
