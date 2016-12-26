@@ -1,7 +1,7 @@
 
 # ランキングの再集計スクリプト
 #
-# デフォルトでそれぞれ10回ずつ計測する。
+# デフォルトでそれぞれ5回ずつ計測する。
 # $ bundle exec rails runner scripts/calc_ranking
 #
 # それぞれ3回ずつ計測する。
@@ -16,7 +16,7 @@ class CalcRanking
   DEFAULT_BATCH_SIZE = 100
 
   def initialize(num_try = nil, batch_size = nil)
-    # 試行回数(デフォルト: 10)
+    # 試行回数(デフォルト: 5)
     @num_try = (num_try || DEFAULT_NUM_TRY).to_i
     @batch_size = (batch_size || DEFAULT_BATCH_SIZE).to_i
     @results = []
