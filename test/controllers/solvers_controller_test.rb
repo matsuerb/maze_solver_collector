@@ -42,7 +42,9 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
     solver_200_3 = create_solver(:solver_200_3, 200, # same elapsed time and nbytes
                                  # less than solver_200_0
                                  created_at: solver_200_0.created_at - 1.hours)
-    expected_solvers = [
+
+    expected_students = []
+    expected_no_students = [
       solver_100_0,
       solver_200_2, solver_200_3, solver_200_0,
       solver_300_0,
@@ -55,8 +57,10 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
     get(solvers_url)
 
     assert_response(:success)
-    assert_equal(expected_solvers.map(&:username),
-                 assigns(:solvers).map(&:username))
+    assert_equal(expected_students.map(&:username),
+                 assigns(:students).map(&:username))
+    assert_equal(expected_no_students.map(&:username),
+                 assigns(:no_students).map(&:username))
   end
 
   test("#new") do
