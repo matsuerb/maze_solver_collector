@@ -28,6 +28,21 @@ class SolversControllerTest < ActionDispatch::IntegrationTest
     return solver
   end
 
+  test("should route to solver") do
+    assert_routing('/', controller: 'solvers', action: 'new')
+    assert_routing('/solvers', controller: 'solvers', action: 'index')
+    assert_routing('/solvers/1', controller: 'solvers', action: 'show', id: '1')
+    assert_routing('/solvers/1.json',
+                   controller: 'solvers', action: 'show', id: '1', format: 'json')
+    assert_routing({method: 'POST', path: '/solvers'},
+                   controller: 'solvers', action: 'create')
+
+    assert_raises(ActionController::RoutingError) do
+      put('/solvers/1',
+          params: {username: 'user1', email: 'user1@example.com', content: 'p 1', division: '0'})
+    end
+  end
+
   test("#index") do
     solver_200_0 = create_solver(:solver_200_0, 200)
     solver_50_fail_1 = create_solver(:solver_50_fail_1, [50, -1, 0])
