@@ -2,3 +2,5 @@
 :max_program_size: <%= 1.megabyte %>
 :max_output_size: <%= 1.megabytes %>
 :cpuset_cpus: '0'
+:contest_start: 2016-11-24
+:contest_end: 2016-12-15

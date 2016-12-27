@@ -1,0 +1,118 @@
+
+# ランキングの再集計スクリプト
+#
+# デフォルトでそれぞれ5回ずつ計測する。
+# $ bundle exec rails runner scripts/calc_ranking
+#
+# それぞれ3回ずつ計測する。
+# $ bundle exec rails runner scripts/calc_ranking 3
+
+require 'csv'
+require 'digest/md5'
+require 'ruby-progressbar'
+
+class CalcRanking
+  DEFAULT_NUM_TRY = 5
+  DEFAULT_BATCH_SIZE = 100
+
+  def initialize(num_try = nil, batch_size = nil)
+    # 試行回数(デフォルト: 5)
+    @num_try = (num_try || DEFAULT_NUM_TRY).to_i
+    @batch_size = (batch_size || DEFAULT_BATCH_SIZE).to_i
+    @results = []
+  end
+
+  def calc
+    checked_programs = []
+    pb = ProgressBar.create(total: Solver.count)
+    range = Settings.contest_start..Settings.contest_end
+    Solver.readonly.where(created_at: range).order(:id).find_in_batches(batch_size: @batch_size).each do |solvers|
+      solvers.each do |s|
+        begin
+          next if checked_programs.include?(solver_hash(s))
+          @num_try.times do |i|
+            s.reload # resultsをクリア
+            s.run_and_set_result
+            res = s.results.select { |r| r.new_record? }.map { |r|
+              {solver: s, num_try: i+1, time: r.elapsed_usec / 1000}
+            }
+            @results.concat(res)
+          end
+          checked_programs.push(solver_hash(s))
+        ensure
+          pb.increment
+        end
+      end
+    end
+    pb.finish
+  end
+
+  def ranking
+    results = []
+    @results.group_by {|r| r[:solver].id }.each do |solver_id, _results|
+      # 正解数も試行回数で差がでないように平均を取る。
+      __results = _results.select {|r| r[:time] >= 0 }
+      time = __results.inject(0) {|sum, r|
+        sum + r[:time].to_i # nilの場合に0にする
+      }.to_f / @num_try
+      res = {
+        num_corrects: __results.count.to_f / @num_try,  # 正解数(平均)
+        time: time,                                     # 合計時間(平均)
+        nbytes: _results.first[:solver].nbytes,
+        created_at: _results.first[:solver].created_at,
+        email: _results.first[:solver].email,
+        is_student: _results.first[:solver].student?,
+        username: _results.first[:solver].username,
+        solver_id: _results.first[:solver].id,
+      }
+      results.push(res)
+    end
+    # solvers_controller.rbより。
+    # ただし、一般、学生で同じアドレスを使用していた場合にどちらにも表示する。
+    return results.partition { |h| h[:is_student] }.map {|res_block|
+      res_block.sort_by { |r|
+        [
+          -r[:num_corrects],
+          r[:time],
+          r[:nbytes],
+          r[:created_at],
+        ]
+      }.uniq {|h| h[:email] }
+    }
+  end
+
+  def csv
+    return CSV.generate do |csv|
+      csv << ["Solver#id", "ニックネーム", "試行回数(回)", "計測結果(ms)"]
+      @results.each do |res|
+        csv << [res[:solver].id, res[:solver].username, res[:num_try], res[:time]]
+      end
+    end
+  end
+
+  private
+
+  def solver_hash(solver)
+    return Digest::MD5.hexdigest(solver.email + solver.content)
+  end
+end
+
+if __FILE__ == $0
+  c = CalcRanking.new(ARGV[0], ARGV[1])
+  c.calc
+  students, no_students = *c.ranking
+  puts 'ランキング(学生):'
+  puts "順位\tID\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
+  students.each.with_index do |r, rank|
+    puts "#{rank+1}\t#{r[:solver_id]}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
+  end
+  puts ''
+  puts 'ランキング(一般):'
+  puts "順位\tID\tニックネーム\t正解数(平均)\t合計時間(平均)\tバイト数"
+  no_students.each.with_index do |r, rank|
+    puts "#{rank+1}\t#{r[:solver_id]}\t#{r[:username]}\t#{r[:num_corrects]}\t#{r[:time]}\t#{r[:nbytes]}"
+  end
+  puts ''
+  puts '生データ:'
+  puts c.csv
+end
