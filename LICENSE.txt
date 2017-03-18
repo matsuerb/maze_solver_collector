@@ -1,4 +1,4 @@
-Copyright (c) 2016 Yuya.Nishida.
+Copyright (c) 2016-2017 Matsue.rb（松江Ruby）
 
 X11 License
 
