@@ -1,0 +1,24 @@
+sudo: required
+
+services:
+  - docker
+  - postgresql
+
+language: ruby
+
+rvm:
+  - 2.3.3
+
+cache:
+  bundler: true
+
+before_install:
+  - docker version
+  - docker build -t solver_runner solver_runner/
+
+before_script:
+  - cp -av config/database.yml.ci config/database.yml
+  - bin/rake db:create db:migrate
+
+script:
+  - bin/rake
