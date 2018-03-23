@@ -1,0 +1,4 @@
+test:
+  adapter: postgresql
+  database: maze_solver_collector_test
+  username: postgres
