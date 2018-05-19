@@ -1,0 +1,10 @@
+{
+  "name": "jquery-check",
+  "version": "1.0.0",
+  "comment": "このファイルはダミーです。GitHubに脆弱性を検知してもらうためだけに置いています。",
+  "dependencies": {
+    "jquery": "3.3.1",
+    "ace-builds": "1.2.5",
+    "bootstrap": "3.2.0"
+  }
+}
