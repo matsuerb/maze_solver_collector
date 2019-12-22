@@ -1,3 +1,9 @@
+# Notice: This project is over
+
+[**Matsue Ruby Kaigi 08 is out!**](https://magazine.rubyist.net/articles/0056/0056-MatsueRubyKaigi08Report.html) :tada:
+
+**This repository is unmaintained and read only.**
+
 # Maze solver collector
 
 ## Requirements
